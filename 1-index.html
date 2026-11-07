@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>حاسبة مستحضرات التجميل | معمل الطبيعة</title>
+<meta name="description" content="حاسبة مجانية من معمل الطبيعة لحساب أوزان مكونات مستحضرات التجميل حسب النسب المئوية.">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+<meta property="og:title" content="حاسبة مستحضرات التجميل | معمل الطبيعة">
+<meta property="og:description" content="حاسبة مجانية لحساب أوزان المكونات حسب النسب المئوية.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://salwalab.github.io/cosmetics-calculator/logo.png">
+<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="calc.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <img src="logo.png" alt="شعار معمل الطبيعة" class="brand-logo">
+    <p class="brand">معمل الطبيعة <span class="brand-en">Natural Lab</span></p>
+    <h1>حاسبة مستحضرات التجميل</h1>
+    <p class="subtitle">حساب أوزان المكونات حسب النسب المئوية</p>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- حقول أعلى الحاسبة -->
+  <section class="card top-fields" aria-label="بيانات المنتج">
+    <div class="field">
+      <label for="productName">اسم المنتج</label>
+      <input type="text" id="productName" placeholder="مثال: كريم ترطيب">
+    </div>
+    <div class="field">
+      <label for="quantity">الكمية المطلوبة (جرام)</label>
+      <input type="text" id="quantity" inputmode="decimal" placeholder="500">
+    </div>
+    <div class="field">
+      <label for="notes">اسم التركيبة أو ملاحظات</label>
+      <input type="text" id="notes" placeholder="اختياري">
+    </div>
+  </section>
+
+  <!-- جدول المكونات -->
+  <section class="card table-card" aria-label="جدول المكونات">
+    <div class="table-wrap">
+      <table id="materialsTable">
+        <thead>
+          <tr>
+            <th class="col-select" aria-label="تحديد"></th>
+            <th class="col-num">الرقم</th>
+            <th class="col-name">اسم المادة</th>
+            <th class="col-pct">النسبة المئوية (%)</th>
+            <th class="col-weight">الوزن بالجرام</th>
+          </tr>
+        </thead>
+        <tbody id="materialsBody"></tbody>
+        <tfoot>
+          <tr class="totals-row">
+            <td class="col-select"></td>
+            <td class="col-num"></td>
+            <td class="col-name totals-label">المجموع</td>
+            <td class="col-pct" id="totalPercent" data-label="مجموع النسب">0%</td>
+            <td class="col-weight" id="totalWeight" data-label="مجموع الأوزان">0.000</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div id="sumMessage" class="sum-message" role="status"></div>
+  </section>
+
+  <!-- أزرار التحكم -->
+  <section class="controls" aria-label="أزرار التحكم">
+    <button type="button" id="btnCalc" class="btn btn-primary">حساب التركيبة</button>
+    <button type="button" id="btnAdd" class="btn btn-primary">إضافة مادة</button>
+    <button type="button" id="btnDelete" class="btn">حذف المادة المحددة</button>
+    <button type="button" id="btnNew" class="btn">تركيبة جديدة</button>
+    <button type="button" id="btnPrint" class="btn btn-primary">طباعة / حفظ PDF</button>
+  </section>
+
+  <!-- الإعلان عن الدورات + الواتساب -->
+  <section class="promo" aria-label="دورات معمل الطبيعة">
+    <div class="courses-area">
+      <h2 class="promo-title">تعلم صناعة مستحضرات التجميل باحتراف مع معمل الطبيعة</h2>
+      <p class="promo-subtitle">برامج تدريبية متكاملة تناسب جميع المستويات</p>
+      <div class="courses-grid">
+        <article class="course-card">
+          <img src="course-serums.jpg" alt="دورة منتجات الأمصال المتطورة" loading="lazy">
+          <h3>دورة منتجات الأمصال المتطورة</h3>
+          <a class="btn btn-primary course-btn" target="_blank" rel="noopener"
+             href="https://salwalab.com/ar/WzgAgQP">صفحة الدورة والمحاور</a>
+        </article>
+        <article class="course-card">
+          <img src="course-baby.jpg" alt="دورة منتجات الأطفال الطبيعية والعضوية" loading="lazy">
+          <h3>دورة منتجات الأطفال الطبيعية والعضوية</h3>
+          <a class="btn btn-primary course-btn" target="_blank" rel="noopener"
+             href="https://salwalab.com/ar/PDqyBvG">صفحة الدورة والمحاور</a>
+        </article>
+        <article class="course-card">
+          <img src="course-soap.jpg" alt="دورة منتجات الصابون الطبيعي" loading="lazy">
+          <h3>دورة منتجات الصابون الطبيعي</h3>
+          <a class="btn btn-primary course-btn" target="_blank" rel="noopener"
+             href="https://salwalab.com/ar/NAwrKWG">صفحة الدورة والمحاور</a>
+        </article>
+        <article class="course-card">
+          <img src="course-herbs.jpg" alt="دورة المستخلصات والأعشاب" loading="lazy">
+          <h3>دورة المستخلصات والأعشاب</h3>
+          <a class="btn btn-primary course-btn" target="_blank" rel="noopener"
+             href="https://salwalab.com/ar/NAwrzay">صفحة الدورة والمحاور</a>
+        </article>
+        <article class="course-card">
+          <img src="course-skinnew.jpg" alt="دورة منتجات البشرة الجديدة" loading="lazy">
+          <h3>دورة منتجات البشرة الجديدة</h3>
+          <a class="btn btn-primary course-btn" target="_blank" rel="noopener"
+             href="https://salwalab.com/ar/EXldAzB">صفحة الدورة والمحاور</a>
+        </article>
+        <article class="course-card">
+          <img src="course-hair.jpg" alt="دبلوم منتجات الشعر الطبيعية" loading="lazy">
+          <h3>دبلوم منتجات الشعر الطبيعية</h3>
+          <a class="btn btn-primary course-btn" target="_blank" rel="noopener"
+             href="https://salwalab.com/ar/vAnZDBv">صفحة الدورة والمحاور</a>
+        </article>
+        <article class="course-card">
+          <img src="course-skin.jpg" alt="دبلوم منتجات البشرة الطبيعية والعضوية المطورة" loading="lazy">
+          <h3>دبلوم منتجات البشرة الطبيعية والعضوية المطورة</h3>
+          <a class="btn btn-primary course-btn" target="_blank" rel="noopener"
+             href="https://salwalab.com/ar/dbBDWBK">صفحة الدورة والمحاور</a>
+        </article>
+        <article class="course-card">
+          <img src="course-anhydrous.jpg" alt="دورة المنتجات الطبيعية اللامائية للمبتدئات" loading="lazy">
+          <h3>دورة المنتجات الطبيعية اللامائية للمبتدئات</h3>
+          <a class="btn btn-primary course-btn" target="_blank" rel="noopener"
+             href="https://salwalab.com/ar/RvDGeqo">صفحة الدورة والمحاور</a>
+        </article>
+        <article class="course-card formulas-card">
+          <img src="formulas.jpg" alt="تركيبات جاهزة للبيع" loading="lazy">
+          <h3>تركيبات جاهزة للشعر والبشرة</h3>
+          <a class="btn btn-primary course-btn" target="_blank" rel="noopener"
+             href="https://salwalab.com/ar/-/c754406046">شراء التركيبات</a>
+        </article>
+      </div>
+    </div>
+
+    <aside class="whatsapp-card" aria-label="التواصل عبر واتساب">
+      <h2>للاستفسار والتسجيل في دورات معمل الطبيعة</h2>
+      <p class="wa-label">رقم الواتساب:</p>
+      <p class="wa-number" dir="ltr">0555864616</p>
+      <p class="wa-label">رابط الواتساب المباشر:</p>
+      <p class="wa-link" dir="ltr"><a href="https://wa.me/966555864616" target="_blank" rel="noopener">wa.me/966555864616</a></p>
+      <a class="btn btn-whatsapp" target="_blank" rel="noopener"
+         href="https://wa.me/966555864616?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85+%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C+%D8%A3%D8%B1%D8%BA%D8%A8+%D9%81%D9%8A+%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1+%D8%B9%D9%86+%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D8%A7%D8%AA+%D8%A7%D9%84%D8%AA%D8%AF%D8%B1%D9%8A%D8%A8%D9%8A%D8%A9+%D9%81%D9%8A+%D9%85%D8%B9%D9%85%D9%84+%D8%A7%D9%84%D8%B7%D8%A8%D9%8A%D8%B9%D8%A9.">تواصل معنا عبر واتساب</a>
+    </aside>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="footer-brand">معمل الطبيعة | Natural Lab</p>
+    <p>الموقع الإلكتروني: <a href="https://salwalab.com" target="_blank" rel="noopener" dir="ltr">salwalab.com</a></p>
+    <p class="disclaimer">الحاسبة مجانية ومتاحة للجميع، ومخصصة لحساب أوزان المكونات وفق النسب المدخلة، ولا تُعد تقييمًا لسلامة التركيبات.</p>
+  </div>
+</footer>
+
+<!-- نافذة منبثقة عامة -->
+<div id="modalOverlay" class="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h3 id="modalTitle"></h3>
+    <div id="modalBody"></div>
+    <div class="modal-actions" id="modalActions"></div>
+  </div>
+</div>
+
+<div id="toast" class="toast" role="status" hidden></div>
+
+<!-- تقرير الطباعة وPDF -->
+<section id="printReport" class="print-report" aria-hidden="true">
+  <div class="pr-header">
+    <img src="logo.png" alt="" class="pr-logo">
+    <p class="pr-brand">معمل الطبيعة | Natural Lab</p>
+    <h2>تركيبة مستحضر تجميل</h2>
+  </div>
+  <table class="pr-info">
+    <tr><th>اسم المنتج:</th><td id="prProduct"></td></tr>
+    <tr><th>الكمية المطلوبة:</th><td id="prQuantity"></td></tr>
+    <tr><th>التاريخ:</th><td id="prDate"></td></tr>
+    <tr id="prNotesRow"><th>ملاحظات:</th><td id="prNotes"></td></tr>
+  </table>
+  <table class="pr-table">
+    <thead>
+      <tr><th>الرقم</th><th>اسم المادة</th><th>النسبة المئوية (%)</th><th>الوزن بالجرام</th></tr>
+    </thead>
+    <tbody id="prBody"></tbody>
+    <tfoot>
+      <tr><td colspan="2">المجموع</td><td id="prTotalPct"></td><td id="prTotalWeight"></td></tr>
+    </tfoot>
+  </table>
+  <p id="prSumMessage" class="pr-sum"></p>
+  <p class="pr-footer">salwalab.com - الحاسبة مجانية ومتاحة للجميع، ومخصصة لحساب أوزان المكونات وفق النسب المدخلة، ولا تُعد تقييمًا لسلامة التركيبات.</p>
+</section>
+<script src="calc-init.js"></script>
+</body>
+</html>
